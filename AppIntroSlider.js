@@ -15,7 +15,7 @@ import DefaultSlide from './DefaultSlide';
 const { width, height } = Dimensions.get('window');
 
 const isIphoneX =
-  Platform.OS === 'ios' && !Platform.isPad && !Platform.isTVOS && (height === 812 || width === 812);
+    Platform.OS === 'ios' && !Platform.isPad && !Platform.isTVOS && (height === 812 || width === 812);
 
 const isAndroidRTL = I18nManager.isRTL && Platform.OS === 'android';
 
@@ -56,12 +56,12 @@ export default class AppIntroSlider extends React.Component {
   _onNextPress = () => {
     this.goToSlide(this.state.activeIndex + 1);
     this.props.onSlideChange &&
-      this.props.onSlideChange(this.state.activeIndex + 1, this.state.activeIndex);
+    this.props.onSlideChange(this.state.activeIndex + 1, this.state.activeIndex);
   };
   _onPrevPress = () => {
     this.goToSlide(this.state.activeIndex - 1);
     this.props.onSlideChange &&
-      this.props.onSlideChange(this.state.activeIndex - 1, this.state.activeIndex);
+    this.props.onSlideChange(this.state.activeIndex - 1, this.state.activeIndex);
   };
 
   _onPaginationPress = index => {
@@ -74,61 +74,61 @@ export default class AppIntroSlider extends React.Component {
     const { width, height } = this.state;
     const props = { ...flatListArgs, dimensions: { width, height } };
     return (
-      <View style={{ width, flex: 1 }}>
-        {this.props.renderItem ? (
-          this.props.renderItem(props)
-        ) : (
-          <DefaultSlide bottomButton={this.props.bottomButton} {...props} />
-        )}
-      </View>
-    );
+        <View style={{ width, flex: 1 }}>
+    {this.props.renderItem ? (
+        this.props.renderItem(props)
+    ) : (
+        <DefaultSlide bottomButton={this.props.bottomButton} {...props} />
+    )}
+  </View>
+  );
   };
 
   _renderButton = (name, onPress) => {
     const show = this.props[`show${name}Button`];
     const content = this.props[`render${name}Button`]
-      ? this.props[`render${name}Button`]()
-      : this._renderDefaultButton(name);
+        ? this.props[`render${name}Button`]()
+        : this._renderDefaultButton(name);
     return show && this._renderOuterButton(content, name, onPress);
   };
 
   _renderDefaultButton = name => {
     let content = (
-      <Text style={[styles.buttonText, this.props.buttonTextStyle]}>
-        {this.props[`${name.toLowerCase()}Label`]}
-      </Text>
-    );
+        <Text style={[styles.buttonText, this.props.buttonTextStyle]}>
+    {this.props[`${name.toLowerCase()}Label`]}
+  </Text>
+  );
     if (this.props.bottomButton) {
       content = (
-        <View
-          style={[
+          <View
+      style={[
             styles.bottomButton,
-            (name === 'Skip' || name === 'Prev') && {
-              backgroundColor: 'transparent',
-            },
-            this.props.buttonStyle,
-          ]}
-        >
-          {content}
-        </View>
-      );
+      (name === 'Skip' || name === 'Prev') && {
+        backgroundColor: 'transparent',
+      },
+          this.props.buttonStyle,
+    ]}
+    >
+      {content}
+    </View>
+    );
     }
     return content;
   };
 
   _renderOuterButton = (content, name, onPress) => {
     const style =
-      name === 'Skip' || name === 'Prev' ? styles.leftButtonContainer : styles.rightButtonContainer;
+        name === 'Skip' || name === 'Prev' ? styles.leftButtonContainer : styles.rightButtonContainer;
     return (
-      <View style={!this.props.bottomButton && style}>
-        <TouchableOpacity
-          onPress={onPress}
-          style={this.props.bottomButton ? styles.flexOne : this.props.buttonStyle}
+        <View style={!this.props.bottomButton && style}>
+  <TouchableOpacity
+    onPress={onPress}
+    style={this.props.bottomButton ? styles.flexOne : this.props.buttonStyle}
         >
-          {content}
+        {content}
         </TouchableOpacity>
-      </View>
-    );
+        </View>
+  );
   };
 
   _renderNextButton = () => this._renderButton('Next', this._onNextPress);
@@ -138,40 +138,41 @@ export default class AppIntroSlider extends React.Component {
   _renderDoneButton = () => this._renderButton('Done', this.props.onDone && this.props.onDone);
 
   _renderSkipButton = () =>
-    // scrollToEnd does not work in RTL so use goToSlide instead
-    this._renderButton('Skip', () =>
-      this.props.onSkip ? this.props.onSkip() : this.goToSlide(this.props.slides.length - 1)
-    );
+      // scrollToEnd does not work in RTL so use goToSlide instead
+      this._renderButton('Skip', () =>
+          this.props.onSkip ? this.props.onSkip() : this.goToSlide(this.props.slides.length - 1)
+      );
 
   _renderPagination = () => {
     const isLastSlide = this.state.activeIndex === this.props.slides.length - 1;
     const isFirstSlide = this.state.activeIndex === 0;
 
-    const skipBtn =
-      (!isFirstSlide && this._renderPrevButton()) || (!isLastSlide && this._renderSkipButton());
-    const btn = isLastSlide ? this._renderDoneButton() : this._renderNextButton();
+    const skipBtn = this._renderSkipButton();
+    const btn = this._renderDoneButton();
 
     return (
-      <View style={[styles.paginationContainer, this.props.paginationStyle]}>
-        <View style={styles.paginationDots}>
-          {this.props.slides.length > 1 &&
-            this.props.slides.map((_, i) => (
-              <TouchableOpacity
-                key={i}
-                style={[
-                  styles.dot,
-                  this._rtlSafeIndex(i) === this.state.activeIndex
-                    ? this.props.activeDotStyle
-                    : this.props.dotStyle,
-                ]}
-                onPress={() => this._onPaginationPress(i)}
-              />
-            ))}
-        </View>
-        {btn}
+        <View style={[styles.paginationContainer, this.props.paginationStyle]}>
+  <View style={styles.paginationDots}>
+        {this.props.slides.length > 1 &&
+              this.props.slides.map((_, i) => (
+                  <TouchableOpacity
+          key={i}
+          style={[
+                styles.dot,
+            this._rtlSafeIndex(i) === this.state.activeIndex
+                ? this.props.activeDotStyle
+                : this.props.dotStyle,
+  ]}
+    onPress={() => this._onPaginationPress(i)}
+    />
+  ))}
+  </View>
+    <View style={styles.positionButtons}>
         {skipBtn}
-      </View>
-    );
+    {btn}
+  </View>
+    </View>
+  );
   };
 
   _rtlSafeIndex = i => (isAndroidRTL ? this.props.slides.length - 1 - i : i);
@@ -226,24 +227,24 @@ export default class AppIntroSlider extends React.Component {
     } = this.props;
 
     return (
-      <View style={styles.flexOne}>
+        <View style={styles.flexOne}>
         <FlatList
-          ref={ref => (this.flatList = ref)}
-          data={this.props.slides}
-          horizontal
-          pagingEnabled
-          showsHorizontalScrollIndicator={false}
-          bounces={false}
-          style={styles.flatList}
-          renderItem={this._renderItem}
-          onMomentumScrollEnd={this._onMomentumScrollEnd}
-          extraData={this.state.width}
-          onLayout={this._onLayout}
-          {...otherProps}
-        />
-        {!hidePagination && this._renderPagination()}
-      </View>
-    );
+    ref={ref => (this.flatList = ref)}
+    data={this.props.slides}
+    horizontal
+    pagingEnabled
+    showsHorizontalScrollIndicator={false}
+    bounces={false}
+    style={styles.flatList}
+    renderItem={this._renderItem}
+    onMomentumScrollEnd={this._onMomentumScrollEnd}
+    extraData={this.state.width}
+    onLayout={this._onLayout}
+    {...otherProps}
+    />
+    {!hidePagination && this._renderPagination()}
+  </View>
+  );
   }
 }
 
@@ -267,6 +268,11 @@ const styles = StyleSheet.create({
     flexDirection: isAndroidRTL ? 'row-reverse' : 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  positionButtons: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center'
   },
   dot: {
     width: 10,
