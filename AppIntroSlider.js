@@ -15,7 +15,7 @@ import DefaultSlide from './DefaultSlide';
 const {width, height} = Dimensions.get('window');
 
 const isIphoneX =
-    Platform.OS === 'ios' && !Platform.isPad && !Platform.isTVOS && (height === 812 || width === 812);
+  Platform.OS === 'ios' && !Platform.isPad && !Platform.isTVOS && (height === 812 || width === 812);
 
 const isAndroidRTL = I18nManager.isRTL && Platform.OS === 'android';
 
@@ -80,46 +80,46 @@ export default class AppIntroSlider extends React.Component {
             }
         };
         return (
-            <View style={{
-                width,
-                flex: 1
-            }}>
-                {this.props.renderItem ? (
-                    this.props.renderItem(props)
-                ) : (
-                    <DefaultSlide bottomButton={this.props.bottomButton} {...props} />
-                )}
-            </View>
+          <View style={{
+              width,
+              flex: 1
+          }}>
+              {this.props.renderItem ? (
+                this.props.renderItem(props)
+              ) : (
+                <DefaultSlide bottomButton={this.props.bottomButton} {...props} />
+              )}
+          </View>
         );
     };
 
     _renderButton = (name, onPress) => {
         const show = this.props[`show${name}Button`];
         const content = this.props[`render${name}Button`]
-            ? this.props[`render${name}Button`]()
-            : this._renderDefaultButton(name);
+          ? this.props[`render${name}Button`]()
+          : this._renderDefaultButton(name);
         return show && this._renderOuterButton(content, name, onPress);
     };
 
     _renderDefaultButton = name => {
         let content = (
-            <Text style={[styles.buttonText, this.props.buttonTextStyle]}>
-                {this.props[`${name.toLowerCase()}Label`]}
-            </Text>
+          <Text style={[styles.buttonText, this.props.buttonTextStyle]}>
+              {this.props[`${name.toLowerCase()}Label`]}
+          </Text>
         );
         if (this.props.bottomButton) {
             content = (
-                <View
-                    style={[
-                        styles.bottomButton,
-                        (name === 'Skip' || name === 'Prev') && {
-                            backgroundColor: 'transparent',
-                        },
-                        this.props.buttonStyle,
-                    ]}
-                >
-                    {content}
-                </View>
+              <View
+                style={[
+                    styles.bottomButton,
+                    (name === 'Skip' || name === 'Prev') && {
+                        backgroundColor: 'transparent',
+                    },
+                    this.props.buttonStyle,
+                ]}
+              >
+                  {content}
+              </View>
             );
         }
         return content;
@@ -127,16 +127,16 @@ export default class AppIntroSlider extends React.Component {
 
     _renderOuterButton = (content, name, onPress) => {
         const style =
-            name === 'Skip' || name === 'Prev' ? styles.leftButtonContainer : styles.rightButtonContainer;
+          name === 'Skip' || name === 'Prev' ? styles.leftButtonContainer : styles.rightButtonContainer;
         return (
-            <View style={!this.props.bottomButton && style}>
-                <TouchableOpacity
-                    onPress={onPress}
-                    style={this.props.bottomButton ? styles.flexOne : this.props.buttonStyle}
-                >
-                    {content}
-                </TouchableOpacity>
-            </View>
+          <View style={!this.props.bottomButton && style}>
+              <TouchableOpacity
+                onPress={onPress}
+                style={this.props.bottomButton ? styles.flexOne : this.props.buttonStyle}
+              >
+                  {content}
+              </TouchableOpacity>
+          </View>
         );
     };
 
@@ -147,10 +147,10 @@ export default class AppIntroSlider extends React.Component {
     _renderDoneButton = () => this._renderButton('Done', this.props.onDone && this.props.onDone);
 
     _renderSkipButton = () =>
-        // scrollToEnd does not work in RTL so use goToSlide instead
-        this._renderButton('Skip', () =>
-            this.props.onSkip ? this.props.onSkip() : this.goToSlide(this.props.slides.length - 1)
-        );
+      // scrollToEnd does not work in RTL so use goToSlide instead
+      this._renderButton('Skip', () =>
+        this.props.onSkip ? this.props.onSkip() : this.goToSlide(this.props.slides.length - 1)
+      );
 
     _renderPagination = () => {
         const isLastSlide = this.state.activeIndex === this.props.slides.length - 1;
@@ -160,33 +160,33 @@ export default class AppIntroSlider extends React.Component {
         const btn = this._renderDoneButton();
 
         return (
-            <View style={[styles.paginationContainer, this.props.paginationStyle]}>
-                <View style={styles.paginationDots}>
-                    {this.props.slides.length > 1 &&
-                    this.props.slides.map((_, i) => (
-                        <TouchableOpacity
-                            key={i}
-                            style={[
-                                styles.dot,
-                                this._rtlSafeIndex(i) === this.state.activeIndex
-                                    ? this.props.activeDotStyle
-                                    : this.props.dotStyle,
-                            ]}
-                            onPress={() => this._onPaginationPress(i)}
-                        />
-                    ))}
+          <View style={[styles.paginationContainer, this.props.paginationStyle]}>
+              <View style={styles.paginationDots}>
+                  {this.props.slides.length > 1 &&
+                  this.props.slides.map((_, i) => (
+                    <TouchableOpacity
+                      key={i}
+                      style={[
+                          styles.dot,
+                          this._rtlSafeIndex(i) === this.state.activeIndex
+                            ? this.props.activeDotStyle
+                            : this.props.dotStyle,
+                      ]}
+                      onPress={() => this._onPaginationPress(i)}
+                    />
+                  ))}
+              </View>
+              {!this.props.showSkipGuide ?
+                <View style={styles.positionButtons}>
+                    {skipBtn}
+                    {btn}
                 </View>
-                {!this.props.showSkipGuide ?
-                    <View style={styles.positionButtons}>
-                        {skipBtn}
-                        {btn}
-                    </View>
-                    :
-                    <View style={styles.positionSkipButton}>
-                        {skipBtn}
-                    </View>
-                }
-            </View>
+                :
+                <View style={styles.positionSkipButton}>
+                    {skipBtn}
+                </View>
+              }
+          </View>
         );
     };
 
@@ -245,23 +245,23 @@ export default class AppIntroSlider extends React.Component {
         } = this.props;
 
         return (
-            <View style={styles.flexOne}>
-                <FlatList
-                    ref={ref => (this.flatList = ref)}
-                    data={this.props.slides}
-                    horizontal
-                    pagingEnabled
-                    showsHorizontalScrollIndicator={false}
-                    bounces={false}
-                    style={styles.flatList}
-                    renderItem={this._renderItem}
-                    onMomentumScrollEnd={this._onMomentumScrollEnd}
-                    extraData={this.state.width}
-                    onLayout={this._onLayout}
-                    {...otherProps}
-                />
-                {!hidePagination && this._renderPagination()}
-            </View>
+          <View style={styles.flexOne}>
+              <FlatList
+                ref={ref => (this.flatList = ref)}
+                data={this.props.slides}
+                horizontal
+                pagingEnabled
+                showsHorizontalScrollIndicator={false}
+                bounces={false}
+                style={styles.flatList}
+                renderItem={this._renderItem}
+                onMomentumScrollEnd={this._onMomentumScrollEnd}
+                extraData={this.state.width}
+                onLayout={this._onLayout}
+                {...otherProps}
+              />
+              {!hidePagination && this._renderPagination()}
+          </View>
         );
     }
 }
@@ -276,7 +276,7 @@ const styles = StyleSheet.create({
     },
     paginationContainer: {
         position: 'absolute',
-        bottom: 16 + (isIphoneX ? 34 : 0),
+        bottom: 32,
         left: 16,
         right: 16,
     },
@@ -298,9 +298,9 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     dot: {
-        width: 10,
-        height: 10,
-        borderRadius: 5,
+        width: 8,
+        height: 8,
+        borderRadius: 4,
         marginHorizontal: 4,
     },
     leftButtonContainer: {
